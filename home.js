@@ -88,7 +88,7 @@ function renderPost() {
   upd.forEach((btn, index) => {
     btn.addEventListener('click', async () => {
       // console.log('edit', arr[index]);
-      const updatedTodo = prompt('enter new Todo');
+      const updatedTodo = prompt('enter new Todo',arr[index].todo);
       await updateDoc(doc(db, "posts", arr[index].docId), {
         todo: updatedTodo
       });
@@ -146,4 +146,5 @@ form.addEventListener('submit', async (e) => {
   }
 });
 // todo add in firestore end
+
 
