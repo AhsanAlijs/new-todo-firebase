@@ -18,7 +18,7 @@ form.addEventListener('submit',(e)=>{
   });
 })
 
-onAuthStateChanged(auth, (user) => {
+ onAuthStateChanged(auth, (user) => {
     if (user) {
       const uid = user.uid;
       console.log(uid);
