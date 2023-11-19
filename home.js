@@ -6,10 +6,6 @@ const names = document.querySelector('#name');
 const form = document.querySelector('#form');
 const todo = document.querySelector('#todo');
 const card = document.querySelector('#card');
-const dels = document.querySelector('#delete')
-const update = document.querySelector('#update')
-
-
 
 
 // logout button start
@@ -37,10 +33,10 @@ onAuthStateChanged(auth, async (user) => {
       const obj = doc.data();
       names.innerHTML = `${obj.username}`
     });
-    
-    
+
+
   } else {
-    
+
   }
 });
 
@@ -48,21 +44,20 @@ onAuthStateChanged(auth, async (user) => {
 
 
 // render post start
-let arr=[];
+let arr = [];
 
 function renderPost() {
   card.innerHTML = ''
   arr.map((item) => {
     // console.log(item);
-    const time = item.postDate.seconds
-    const mydate = new Date(time*1000)
+    // const time = item.postDate.seconds
+    // const mydate = new Date(time * 1000)
     // console.log(mydate);
-      card.innerHTML += `
+    card.innerHTML += `
       <div class="card mt-2 w-[70%] bg-[#1a2930] py-2">
       <div class="card-body">
           <div class="d-flex align-items-center justify-content-between">
           <p class="text-[#fff]"><span class="h4 px-2">Todo:</span>${item.todo}</p>
-          <p class="text-[#fff] fs-6"><span class=" fs-6 px-2">Date:</span>${mydate}</p>
           </div>
           <div class="mt-[50px] gap-6">
           <button type="button" id="delete" class="btn btn-danger text-[#ffffff]">Delete</button>
@@ -70,13 +65,44 @@ function renderPost() {
           </div>
       </div>
   </div>`
-  })}
-  renderPost()
+  })
+  const del = document.querySelectorAll('#delete');
+  const upd = document.querySelectorAll('#update')
+
+  // delete function start
+  del.forEach((btn, index) => {
+    btn.addEventListener('click', async () => {
+      // console.log('delete', arr[index]);
+      await deleteDoc(doc(db, "posts", arr[index].docId))
+        .then(() => {
+          console.log('post deleted');
+          arr.splice(index, 1);
+          renderPost()
+        });
+
+    })
+  })
+  // delete function end
+
+  // update function start
+  upd.forEach((btn, index) => {
+    btn.addEventListener('click', async () => {
+      // console.log('edit', arr[index]);
+      const updatedTodo = prompt('enter new Todo');
+      await updateDoc(doc(db, "posts", arr[index].docId), {
+        todo: updatedTodo
+      });
+      arr[index].todo = updatedTodo;
+      renderPost()
+    })
+  });
+  // update function end
+}
+renderPost()
 // render post end
 
-// delete start
 
-// delete end
+
 
 
 
@@ -86,8 +112,6 @@ async function getdatfromfirestore() {
   const q = query(collection(db, "posts"), orderBy('postDate', 'desc'));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
-    // doc.data() is never undefined for query doc snapshots
-    // console.log(doc.id, " => ", doc.data());
     arr.push({ ...doc.data(), docId: doc.id })
   });
   // console.log(arr);
@@ -112,10 +136,10 @@ form.addEventListener('submit', async (e) => {
       const docRef = await addDoc(collection(db, "posts"), postObj);
       console.log("Document written with ID: ", docRef.id);
       postObj.docId = docRef.id;
-      arr = [postObj];
+      arr = [postObj,...arr];
       // console.log(arr);
-
-
+      todo.value=''
+      renderPost()
     } catch (e) {
       console.error("Error adding document: ", e);
     }
