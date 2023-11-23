@@ -5,21 +5,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register user</title>
+    <link rel="stylesheet" href="./dist/style.css">
+    <link rel="icon" type="image/x-icon" href="./fav icon/register.png">
 </head>
 
 <body>
 
     <div class="main">
-        <h2 style="text-align: center;">Register</h2>
-        <form id="form">
-            <input type="text" placeholder="Enter Username" id="username">
-            <input type="email" placeholder="Enter Email" id="email">
-            <input type="password" placeholder="Enter password" id="password">
-            <input type="submit" value="Register">
-        </form>
-        <a href="./login.html">Already hav'n account</a>
+        <div class="main-head bg-[#4bb2cc] p-[10px] text-[white] text-2xl font-bold">
+            <p>Register User</p>
+        </div>
+        <div class="bg-[#99c4c5] h-[93vh] flex items-center justify-center ">
+            <div class="bg-[#134250] w-[50%] text-center rounded-3xl mt-[-100px]">
+                <div class="mt-[10px] my-[10px] text-[white]">
+                    <h2 class="font-bold text-[20px]">Register</h2>
+                </div>
+                <form id="form">
+                    <div class="user">
+                        <label class="text-[white] font-bold">User Name</label>
+                        <input type="text" placeholder="Enter Username" id="username"
+                            class="border-2 border-sky-500 my-2 w-[55%] rounded-[5px] outline-none placeholder:text-[black] pl-1" required>
+                    </div>
+                    <div class="emal">
+                        <label class="mr-[44px] text-[white] font-bold">Email</label>
+                        <input type="email" placeholder="Enter Email" id="email"
+                            class="border-2 border-sky-500 my-2 w-[55%] rounded-[5px] outline-none placeholder-slate-900 pl-1"required>
+                    </div>
+                    <div class="password">
+                        <label class="mr-[10px] text-[white] font-bold">Password</label>
+                        <input type="password" placeholder="Enter password" id="password"
+                            class="border-2 border-sky-500  my-2 w-[55%] rounded-[5px] outline-none placeholder:text-[black] pl-1"required>
+                    </div>
+                    <div class="submit mt-[10px]">
+                        <input type="submit" value="Register" class="border-[2px] border-[#fcfcfc] text-[white] outline-none px-[20px] py-[3px] rounded-[5px] hover:cursor-pointer hover:bg-black">
+                    </div>
+                </form>
+                <div class="account  text-[white] my-[10px]">
+                    <a href="./login.html">Already have'n account</a>
+                </div>
+            </div>
+        </div>
     </div>
-
     <script src="register.js" type="module"></script>
 </body>
 

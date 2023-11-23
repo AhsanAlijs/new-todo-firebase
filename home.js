@@ -20,10 +20,9 @@ logout.addEventListener('click', () => {
 // logout button end
 
 // get data from fire store start
-let uid ;
 onAuthStateChanged(auth, async (user) => {
   if (user) {
-    uid = user.uid;
+    const uid = user.uid;
     // console.log(uid);
     const q = query(collection(db, "users"), where("uid", "==", uid));
     const querySnapshot = await getDocs(q);
@@ -34,7 +33,7 @@ onAuthStateChanged(auth, async (user) => {
       const obj = doc.data();
       names.innerHTML = `${obj.username}`
     });
-
+    getdatfromfirestore(uid)
 
   } else {
 
@@ -55,13 +54,13 @@ function renderPost() {
     const mydate = new Date(time * 1000)
     // console.log(mydate);
     card.innerHTML += `
-      <div class="card mt-2 w-[70%] bg-[#1a2930] py-2">
-      <div class="card-body">
+      <div class="mt-[10px] bg-[#17242b] rounded-[20px]">
+      <div class="card-body p-[20px] ">
           <div class="d-flex align-items-center justify-content-between">
-          <p class="text-[#fff]"><span class="h4 px-2">Todo:</span>${item.todo}</p>
-          <p class="text-[#fff]"><span class="h4 px-2"></span>${mydate}</p>
+          <p class="text-[#ffffff]"><span class="h4 px-2">Todo:</span>${item.todo}</p>
+          <p class="text-[#ffffff]"><span class="h4 px-2"></span>${mydate}</p>
           </div>
-          <div class="mt-[50px] gap-6">
+          <div class=" gap-6 mt-[20px]">
           <button type="button" id="delete" class="btn btn-danger text-[#ffffff]">Delete</button>
           <button type="button" id="update" class="btn btn-info  text-[#ffffff]">Edit</button>
           </div>
@@ -103,23 +102,22 @@ function renderPost() {
 renderPost()
 // render post end
 
-let docid ;
 // get data from fire store2 
-async function getdatfromfirestore(){
-  let uid;
-  const q = query(collection(db, "posts"), orderBy('postDate', 'desc'));
+async function getdatfromfirestore(uid){
+  arr.length = 0;
+  const q = await query(collection(db, "posts"), orderBy('postDate', 'desc') , where('uid' , '==' , uid));
   const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     arr.push({ ...doc.data(), docId: doc.id })
-    uid=doc.data().uid
+    console.log(doc.data().uid);
   });
   // console.log(arr);
   renderPost();
 }
   
+getdatfromfirestore()
 
 // get data from fire end2 
-getdatfromfirestore()
 
 
 // todo add in firestore start
